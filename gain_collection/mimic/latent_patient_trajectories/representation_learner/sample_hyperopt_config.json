@@ -1,0 +1,15 @@
+{
+  "do_add_cls_analog":      {"method": "choice", "params": [true, false]},
+  "notes":                  {"method": "constant", "params": "no_notes"},
+  "batch_size":             {"method": "constant", "params": 512},
+  "epochs":                 {"method": "constant", "params": 1},
+  "batches_per_gradient":   {"method": "quniform", "params": [1, 10]},
+  "do_train_note_bert":     {"method": "choice", "params": [true, false]},
+  "in_dim":                 {"method": "quniform", "params": [16, 128]},
+  "hidden_size_multiplier": {"method": "quniform", "params": [4, 32]},
+  "intermediate_size":      {"method": "quniform", "params": [16, 256]},
+  "num_attention_heads":    {"method": "quniform", "params": [2, 8]},
+  "num_hidden_layers":      {"method": "quniform", "params": [2, 8]},
+  "learning_rate":          {"method": "loguniform", "params": [-5, -1]},
+  "note_bert_lr_reduce":    {"method": "uniform", "params": [1, 4]}
+}
