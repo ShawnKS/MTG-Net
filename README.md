@@ -18,13 +18,13 @@ We follow the backbone model used in [Autoformer](https://github.com/thuml/Autof
 
 ### Transferring Gain Collection
 
-We provide several scripts for collecting the transferring gain.
+We provide scripts for collecting the transferring gain [here](./gain_collection).
 
 ### Baselines
 
 #### HOA
 
-The HOA algorithm can be calculated using pairwise task transferring gains, we provide a notebook HOA_compute.ipynb as the exmple.
+The HOA algorithm can be calculated using pairwise task transferring gains, we provide examples in ./gain_collection directory.
 
 #### TAG
 

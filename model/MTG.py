@@ -16,7 +16,7 @@ import pickle
 from util import *
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset',type=str, default='6tasks')
+    parser.add_argument('--dataset',type=str, default='mimic27')
     parser.add_argument('--gpu_id',type=str,default='1')
     parser.add_argument('--ratio',type=str,default = '1')
     parser.add_argument('--layer_num',type=int,default=2)
@@ -30,11 +30,11 @@ def get_args():
     return args
 args = get_args()
 # hyperparam
-dataset = args.dataset #6tasks 28tasks 27tasks 8tasks 5tasks 
+dataset = args.dataset 
 strategy = args.strategy
 # strategy = 'pertask' # pertask or perstep
 temperature = 0.00001
-ratio = args.ratio # for 6tasks and 27 tasks '0.1' '0.5' '1'  for cv 5tasks options ->'smalldata' 'smallnet' and '1'
+ratio = args.ratio
 learning_rate = 0.1
 num_layers = args.layer_num
 gpu_id = args.gpu_id
