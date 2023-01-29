@@ -25,12 +25,6 @@ globalargs = get_args()
 np.random.seed(globalargs.seed)
 torch.manual_seed(globalargs.seed)
 torch.cuda.manual_seed_all(globalargs.seed)
-#   File "./Scripts/all_sample_20_tasks.py", line 28, in <module>
-#     f = open('/home/covpreduser/Blob/v-xiaosong/comprehensive_MTL_EHR/3000sample20_tasks_combinations.pickle',"rb")
-# FileNotFoundError: [Errno 2] No such file or directory: '/home/covpreduser/Blob/v-xiaosong/comprehensive_MTL_EHR/3000sample20_tasks_combinations.pickle'
-# amulet: terminate log capture forthwith
-# f = open('/home/covpreduser/Blob/v-xiaosong/dataset/3000sample27_tasks_combinations.pickle',"rb")
-# sample_list = pickle.load(f)
 base_num = globalargs.frac*globalargs.frac_num
 # my_sample_list = sample_list[globalargs.frac*globalargs.frac_num:globalargs.frac_num*(globalargs.frac+1)]
 my_sample_list = [ ('icd_infection', 'icd_neoplasms', 'icd_endocrine', 'icd_blood', 'icd_mental', 'icd_nervous',
@@ -58,8 +52,8 @@ loadargs = {
         # ~/Blob
         # home/covpreduser/Blob
         # mnt/blob_cache/
-        'run_dir' : '/home/covpreduser/Blob/v-xiaosong/comprehensive_MTL_EHR/sample_output/3000sample_27tasks/',
-        'dataset_dir': '/home/covpreduser/Blob/v-xiaosong/dataset/PTbenchmark/final_datasets_for_sharing/dataset/rotations/no_notes/0',}
+        'run_dir' : './comprehensive_MTL_EHR/sample_output/3000sample_27tasks/',
+        'dataset_dir': './dataset/PTbenchmark/final_datasets_for_sharing/dataset/rotations/no_notes/0',}
 args = Args.from_variable(loadargs)
 datasets, train_dataloader = setup_for_run(args)
 tuning_dataloader=None
@@ -71,10 +65,9 @@ if args.early_stopping:
         )
 train_dataloader.dataset.set_epoch(0)
 tuning_dataloader.dataset.set_epoch(0)
-run_dir = '/home/covpreduser/Blob/v-xiaosong/comprehensive_MTL_EHR/sample_output/3000sample_27tasks/seed_' + str(globalargs.seed)+ '_' + str(ratio) +'/'
+run_dir = './comprehensive_MTL_EHR/sample_output/3000sample_27tasks/seed_' + str(globalargs.seed)+ '_' + str(ratio) +'/'
 if not os.path.exists(run_dir):
     os.makedirs(run_dir)
-print("???????????????????")
 # for i in range(globalargs.frac_num):
 select_tasks = ('icd_infection', 'icd_neoplasms', 'icd_endocrine', 'icd_blood', 'icd_mental', 'icd_nervous',
         'icd_circulatory', 'icd_respiratory', 'icd_digestive', 'icd_genitourinary', 'icd_pregnancy',
@@ -110,7 +103,7 @@ Trainargs = {
         # which rotation(split)
         'rotation': 0, 
         # 'dataset_dir' Not used by default--inferred from rotation.
-        'dataset_dir': '/home/covpreduser/Blob/v-xiaosong/dataset/PTbenchmark/final_datasets_for_sharing/dataset/rotations/no_notes/0', 
+        'dataset_dir': './dataset/PTbenchmark/final_datasets_for_sharing/dataset/rotations/no_notes/0', 
         'num_dataloader_workers': 4, 
         'do_eicu': False, 
         # early_stopping applied?

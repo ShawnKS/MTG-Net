@@ -37,10 +37,6 @@ for i in range(2):
 np.random.seed(globalargs.seed)
 torch.manual_seed(globalargs.seed)
 torch.cuda.manual_seed_all(globalargs.seed)
-#   File "./Scripts/all_sample_20_tasks.py", line 28, in <module>
-#     f = open('/mnt/shared_data/v-xiaosong/comprehensive_MTL_EHR/3000sample20_tasks_combinations.pickle',"rb")
-# FileNotFoundError: [Errno 2] No such file or directory: '/mnt/shared_data/v-xiaosong/comprehensive_MTL_EHR/3000sample20_tasks_combinations.pickle'
-# amulet: terminate log capture forthwith
 base_num = globalargs.frac*globalargs.frac_num
 my_sample_list = pairwise_tasks[globalargs.frac*globalargs.frac_num:globalargs.frac_num*(globalargs.frac+1)]
 ratio = globalargs.ratio
@@ -62,8 +58,8 @@ loadargs = {
         # ~/Blob
         # home/covpreduser/Blob
         # mnt/blob_cache/
-        'run_dir' : '/mnt/shared_data/v-xiaosong/comprehensive_MTL_EHR/sample_output/pairwise_27tasks/',
-        'dataset_dir': '/mnt/shared_data/v-xiaosong/dataset/PTbenchmark/final_datasets_for_sharing/dataset/rotations/no_notes/0',}
+        'run_dir' : './comprehensive_MTL_EHR/sample_output/pairwise_27tasks/',
+        'dataset_dir': './dataset/PTbenchmark/final_datasets_for_sharing/dataset/rotations/no_notes/0',}
 args = Args.from_variable(loadargs)
 datasets, train_dataloader = setup_for_run(args)
 tuning_dataloader=None
@@ -75,7 +71,7 @@ if args.early_stopping:
         )
 train_dataloader.dataset.set_epoch(0)
 tuning_dataloader.dataset.set_epoch(0)
-run_dir = '/mnt/shared_data/v-xiaosong/comprehensive_MTL_EHR/sample_output/pairwise_27tasks/seed_' + str(globalargs.seed)+ '_' + str(ratio) +'/'
+run_dir = './comprehensive_MTL_EHR/sample_output/pairwise_27tasks/seed_' + str(globalargs.seed)+ '_' + str(ratio) +'/'
 if not os.path.exists(run_dir):
     os.makedirs(run_dir)
 for i in range(globalargs.frac_num):
@@ -96,8 +92,6 @@ for i in range(globalargs.frac_num):
             'max_seq_len': 48, 
             # 'modeltype' task-specific model after shared GRU backbone, only have FC temporally though we choose self_attention here :)
             'modeltype': 'self_attention', 
-            # 'run_dir': '../Sample Args/920save/split1/0/0.1/acu1/', 
-            # directory for saving
             'run_dir' : this_run_dir,
             'model_file_template': 'model',
             # should overwrite run dir?

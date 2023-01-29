@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 from torch.utils.data import (
     DataLoader, Dataset, RandomSampler, SubsetRandomSampler, Subset, SequentialSampler
 )
-from HOINet import *
+from MTGNet import *
 import pandas as pd
 from search import *
 import torch

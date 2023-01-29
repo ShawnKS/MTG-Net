@@ -1,6 +1,6 @@
 ## MTG-Net
 
-The repository contains the codes for the paper Efficient and Effective Multi-task Grouping via Meta Learning on Task Combinations part of Advances in Neural Information Processing Systems (NeurIPS) 2022.
+The repository contains the codes for the paper, Efficient and Effective Multi-task Grouping via Meta Learning on Task Combinations, which is accepted by Advances in Neural Information Processing Systems (NeurIPS) 2022.
 
 ### Dataset & Backbone Model
 
@@ -28,7 +28,7 @@ The HOA algorithm can be calculated using pairwise task transferring gains, we p
 
 #### TAG
 
-We provide each datasets gain collection with a TAG version. You can refer to the readme file under /gain_collection directory for details.
+We provide each datasets gain collection with a TAG version. You can refer to the readme file under ./gain_collection directory for details.
 
 ### Pipeline
 
