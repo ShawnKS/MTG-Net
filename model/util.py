@@ -15,7 +15,6 @@ import argparse
 import pickle
 from data_util import *
 
-# 0 1 2 3 4 5
 def del_tensor_ele(arr,index):
     arr1 = arr[0:index]
     arr2 = arr[index+1:]
@@ -64,14 +63,7 @@ def model_training(dataset, ratio,temperature, num_layers,num_hidden,ensemble_nu
     if(strategy == 'active'):
         end_num = end_num + len(x[0]) - 1
     print(end_num)
-    # if(strategy == 'activeper'):
-    #     end_num = int((len(x[0])-1)/2) - 1 +len(x[0])
     print('end iter',end_num)
-    # new_index =[]
-    # for i in x:
-    #     for j in range(len(testx)):
-    #         if((i == testx[j]).all()):
-    #             new_index.append(j)
     testx_align = testx
     testy_align = testy
     import copy
@@ -84,8 +76,6 @@ def model_training(dataset, ratio,temperature, num_layers,num_hidden,ensemble_nu
     test_perf = np.array([])
     all_perf = np.array([])
     total_num = len(x)
-    # sample_list = np.random.choice(list(range(len(x))),size = 1 ,replace = False)
-    # single_list = []
     sample_list = []
     for i in range(len(x)):
         if((len(x[i][x[i]==1])==1)):
@@ -98,11 +88,7 @@ def model_training(dataset, ratio,temperature, num_layers,num_hidden,ensemble_nu
     X_select = x[ np.setdiff1d(np.array(range(len(x))), sample_list) ]
     y_select = y[ np.setdiff1d(np.array(range(len(y))), sample_list) ]
     mask_select = mask[np.setdiff1d(np.array(range(len(mask))), sample_list)]
-    # test_list = np.setdiff1d(test_list, sample_list)
-    # pair_list = np.array(pair_list)
-    # meta_feature = np.array(pd.read_csv('meta_task_feature.csv', header = None))
-    # x = np.dot(x,meta_feature)
-    # x = (x- np.min(x)) / ( np.max(x) -  np.min(x))
+    
     print(sample_list)
     X_train = x[sample_list]
     y_train = y[sample_list]
@@ -288,24 +274,12 @@ def model_training(dataset, ratio,temperature, num_layers,num_hidden,ensemble_nu
                     ensemble_test_output = test_output.clone().unsqueeze(dim=0)
                 else:
                     ensemble_test_output = torch.cat([ensemble_test_output, test_output.unsqueeze(dim=0) ])
-                
-                # ensemble_test_ground_truth = torch.cat([ensemble_test_ground_truth, ground_truth],1)
-                # ensemble_test_mask = torch.cat([ensemble_test_mask, test_mask ],1)
-            # print(ensemble_valid_output.shape)
             valid_loss = criterion(torch.mean(ensemble_valid_output,dim=0)[total_mask!=0], ground_truth.mul(total_mask)[total_mask!=0] ).cpu().detach().numpy()
             test_loss = criterion(torch.mean(ensemble_test_output,dim=0)[test_mask!=0],test_ground_truth.mul(test_mask)[test_mask!=0] ).cpu().detach().numpy()
             total_valid_loss = np.hstack((total_valid_loss, valid_loss))
-            # todo total_loss compute
-            # all_output,attentions = model(torch.FloatTensor(total_x).to(device), task_id.repeat(len(total_x),1))
-            # total_loss = criterion(all_output,torch.FloatTensor(total_y).to(device)).cpu().detach().numpy()
-
-            # print(ensemble_test_output.shape)
-            # test_loss = criterion(test_output[test_mask!=0], test_ground_truth.mul(test_mask)[test_mask!=0] ).cpu().detach().numpy()
-            # total_test_loss = np.hstack((total_test_loss, test_loss))
-        # train end
+        
         total_run_train_loss.append(total_train_loss)
         total_run_valid_loss.append(total_valid_loss)
-        # total_run_loss.append(total_loss)
         total_run_test_loss.append(total_test_loss)
         
         total_output = torch.mean(ensemble_valid_output,dim=0)
@@ -317,8 +291,6 @@ def model_training(dataset, ratio,temperature, num_layers,num_hidden,ensemble_nu
         print('train loss',train_perf)
         print('valid loss',valid_perf)
         print("test loss",test_perf)
-        
-        # test_perf = np.hstack((test_perf,test_loss))
 
         test_output = torch.mean(ensemble_test_output,dim=0)
         if(dataset=='27tasks'):
@@ -339,13 +311,10 @@ def model_training(dataset, ratio,temperature, num_layers,num_hidden,ensemble_nu
             temp = ''
             if(strategy != 'active'):
                 temp = strategy
-            # np.savetxt("active8_tasks_x.txt", model_x)
             with open('./log/'+dataset+'/'+ ratio +'/train_pertask_ensembleprob_loss_'+temp+'_'+str(temperature)+'_'+str(seed)+'_'+str(num_layers)+'_'+str(active_num)+'.pkl', "wb") as fp:
                 pickle.dump(total_run_train_loss, fp)
             with open('./log/'+dataset+'/'+ ratio +'/valid_pertask_ensembleprob_loss_'+temp+'_'+str(temperature)+'_'+str(seed)+'_'+str(num_layers)+'_'+str(active_num)+'.pkl', "wb") as fp:
                 pickle.dump(total_run_valid_loss, fp)
-            # with open('./log/'+dataset+'/'+ ratio +'/total_pertask_ensembleprob_loss_'+temp+'_'+str(temperature)+'_'+str(seed)+'_'+str(num_layers)+'_'+str(active_num)+'.pkl', "wb") as fp:
-            #     pickle.dump(total_run_loss, fp)
             with open('./log/'+dataset+'/'+ ratio +'/test_pertask_ensembleprob_loss_'+temp+'_'+str(temperature)+'_'+str(seed)+'_'+str(num_layers)+'_'+str(active_num)+'.pkl', "wb") as fp:
                 pickle.dump(total_run_test_loss, fp)
             with open('./log/'+dataset+'/'+ ratio +'/pred_pertask_traj'+temp+'_'+str(temperature)+'_'+str(seed)+'_'+str(num_layers)+'_'+str(active_num)+'.pkl', "wb") as fp:
@@ -354,45 +323,6 @@ def model_training(dataset, ratio,temperature, num_layers,num_hidden,ensemble_nu
                 pickle.dump(total_mask_traj, fp)
             print('The step for saving is', active_num)
             return total_pred_traj
-
-        if(strategy == 'active'):
-            current_best = np.zeros(len(x[0]),)
-            total_output = total_output
-            for i in range(len(current_best)):
-                if(len(y_train.shape) == 1):
-                    current_best[i] = y_train.cpu().detach()[i]
-                else:
-                    current_best[i] = y_train.cpu().detach()[np.argmax(y_train.cpu().detach()[:,i])][i]
-                for i in range(len(total_output)):
-                    total_output[i] = (total_output[i] -  torch.FloatTensor(current_best) ) * X_select[i].cpu().detach()
-            if(active_num < len(x[0])):
-                sel_index = np.argmax(abs( np.sum(total_output.numpy(),axis=1) ))
-                X_train = torch.cat([X_train, X_select[sel_index].unsqueeze(0)],0)
-                y_train = torch.cat([y_train, y_select[sel_index].unsqueeze(0)],0)
-                mask_train = torch.cat([mask_train,mask_select[sel_index].unsqueeze(0)]  ,0)
-                X_select = del_tensor_ele(X_select,sel_index)
-                y_select = del_tensor_ele(y_select,sel_index)
-                mask_select = del_tensor_ele(mask_select,sel_index)
-                total_output = del_tensor_ele(total_output,sel_index)
-                if(dataset != '27tasks'):
-                    X_test = del_tensor_ele(X_test,sel_index)
-                    y_test = del_tensor_ele(y_test,sel_index)
-                    mask_test = del_tensor_ele(mask_test,sel_index)
-                    
-            else:
-                for i in range(step):
-                    sel_index = np.argmax(abs( np.sum(total_output.numpy(),axis=1 )))
-                    X_train = torch.cat([X_train, X_select[sel_index].unsqueeze(0)],0)
-                    y_train = torch.cat([y_train, y_select[sel_index].unsqueeze(0)],0)
-                    mask_train = torch.cat([mask_train,mask_select[sel_index].unsqueeze(0)]  ,0)
-                    X_select = del_tensor_ele(X_select,sel_index)
-                    y_select = del_tensor_ele(y_select,sel_index)
-                    mask_select = del_tensor_ele(mask_select,sel_index)
-                    total_output = del_tensor_ele(total_output,sel_index)
-                    if(dataset != '27tasks'):
-                        X_test = del_tensor_ele(X_test,sel_index)
-                        y_test = del_tensor_ele(y_test,sel_index)
-                        mask_test = del_tensor_ele(mask_test,sel_index)
 
         if(strategy == 'activeper'):
             col = active_num % len(x[0])
@@ -456,20 +386,3 @@ def model_training(dataset, ratio,temperature, num_layers,num_hidden,ensemble_nu
                             y_test = del_tensor_ele(y_test,sel_index)
                             mask_test = del_tensor_ele(mask_test,sel_index)
                         break
-
-
-        if(strategy == 'random'):
-            for i in range(step):
-                sel_index = np.random.choice(np.arange(len(X_select)) ,size = 1,replace = False )[0]
-                print(sel_index)
-                X_train = torch.cat([X_train, X_select[sel_index].unsqueeze(0)],0)
-                y_train = torch.cat([y_train, y_select[sel_index].unsqueeze(0)],0)
-                mask_train = torch.cat([mask_train,mask_select[sel_index].unsqueeze(0)]  ,0)
-                X_select = del_tensor_ele(X_select,sel_index)
-                y_select = del_tensor_ele(y_select,sel_index)
-                mask_select = del_tensor_ele(mask_select,sel_index)
-                total_output = del_tensor_ele(total_output,sel_index)
-                if(dataset != '27tasks'):
-                    X_test = del_tensor_ele(X_test,sel_index)
-                    y_test = del_tensor_ele(y_test,sel_index)
-                    mask_test = del_tensor_ele(mask_test,sel_index)

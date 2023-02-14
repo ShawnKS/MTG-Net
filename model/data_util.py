@@ -56,45 +56,20 @@ def getdataset(dataset,ratio):
         testy = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MTL/MTL4Drug/tox21.csv',header=None))
 
     if(dataset == 'taskonomy'):
-        x = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/CV_results/cv0.1x.csv',header = None))
-        y = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/CV_5tasks/5tasksfull_relative.csv', sep = ' ', header = None))
-        testx = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/CV_results/cv0.1x.csv',header = None))
-        testy = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/CV_5tasks/5tasksfull_relative.csv', sep = ' ', header = None))
+        x = np.array(pd.read_csv('/MTG-Net/collected_gain/gain_data/CV_results/cv0.1x.csv',header = None))
+        y = np.array(pd.read_csv('/MTG-Net/collected_gain/gain_data/CV_5tasks/5tasksfull_relative.csv', sep = ' ', header = None))
+        testx = np.array(pd.read_csv('/MTG-Net/collected_gain/gain_data/CV_results/cv0.1x.csv',header = None))
+        testy = np.array(pd.read_csv('/MTG-Net/collected_gain/gain_data/CV_5tasks/5tasksfull_relative.csv', sep = ' ', header = None))
             
     if(dataset == 'mimic5tasks'):
-        if(ratio == '0.1'):
-            x = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/mimic5tasks/5tasks_x.csv',header = None))
-            y = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/mimic5tasks/5tasks_validy01.csv', header = None))
-            testx = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/mimic5tasks/5tasks_x.csv',header = None))
-            testy = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/mimic5tasks/5tasks_testy01.csv', header = None))
-
-        if(ratio == '0.5'):
-            x = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/mimic5tasks/5tasks_x.csv',header = None))
-            y = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/mimic5tasks/5tasks_validy05.csv', header = None))
-            testx = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/mimic5tasks/5tasks_x.csv',header = None))
-            testy = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/mimic5tasks/5tasks_testy05.csv', header = None))
-
-        if(ratio == '1'):
-            x = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/mimic5tasks/5tasks_x.csv',header = None))
-            y = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/mimic5tasks/5tasks_validy10.csv', header = None))
-            testx = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/mimic5tasks/5tasks_x.csv',header = None))
-            testy = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/mimic5tasks/5tasks_testy10.csv', header = None))
+        x = np.array(pd.read_csv('/MTG-Net/collected_gain/gain_data/mimic5tasks/taskonomy_x.csv',header = None))
+        y = np.array(pd.read_csv('/MTG-Net/collected_gain/gain_data/mimic5tasks/taskonomy_validy.csv', header = None))
+        testx = np.array(pd.read_csv('/MTG-Net/collected_gain/gain_data/mimic5tasks/taskonomy_x.csv',header = None))
+        testy = np.array(pd.read_csv('/MTG-Net/collected_gain/gain_data/mimic5tasks/taskonomy_testy.csv', header = None))
 
     if(dataset == 'mimic27'):
-        if(ratio == '0.1'):
-            x = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/3000addpair/27tasks_validx01_clean.csv',header = None,sep=' '))
-            y = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/3000addpair/27tasks_validy01_clean.csv', header = None,sep=' '))
-            testx = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/3000addpair/27tasks_testx01_clean.csv',header = None,sep=' '))
-            testy = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/3000addpair/27tasks_testy01_clean.csv', header = None,sep=' '))
-
-        if(ratio == '0.5'):
-            x = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/3000addpair/27tasks_validx05_clean.csv',header = None,sep=' '))
-            y = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/3000addpair/27tasks_validy05_clean.csv', header = None,sep=' '))
-            testx = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/3000addpair/27tasks_testx05_clean.csv',header = None,sep=' '))
-            testy = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/3000addpair/27tasks_testy05_clean.csv', header = None,sep=' '))
-        if(ratio == '1'):
-            x = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/3000addpair/27tasks_validx10_clean.csv',header = None,sep=' '))
-            y = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/3000addpair/27tasks_validy10_clean.csv', header = None,sep=' '))
-            testx = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/3000addpair/27tasks_testx10_clean.csv',header = None,sep=' '))
-            testy = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/HOINet/gain_data/3000addpair/27tasks_testy10_clean.csv', header = None,sep=' '))
+        x = np.array(pd.read_csv('/MTG-Net/collected_gain/gain_data/3000addpair/mimic_x_valid.csv',header = None,sep=' '))
+        y = np.array(pd.read_csv('/MTG-Net/collected_gain/gain_data/3000addpair/mimic_y_valid.csv', header = None,sep=' '))
+        testx = np.array(pd.read_csv('/MTG-Net/collected_gain/gain_data/3000addpair/mimic_x_test.csv',header = None,sep=' '))
+        testy = np.array(pd.read_csv('/MTG-Net/collected_gain/gain_data/3000addpair/mimic_y_test.csv', header = None,sep=' '))
     return x,y,testx,testy
