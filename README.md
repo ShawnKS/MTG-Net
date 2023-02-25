@@ -2,38 +2,37 @@
 
 The repository contains the codes for the paper, Efficient and Effective Multi-task Grouping via Meta Learning on Task Combinations, which is accepted by Advances in Neural Information Processing Systems (NeurIPS) 2022.
 
-### Dataset & Backbone Model
+#### Dataset & Backbone Model
+Taskonomy We follow the backbone model used in [Which Tasks to Train Together in Multi-Task Learning](https://github.com/tstandley/taskgrouping) (ICML'20)
+MIMICIII We follow the backbone model used in [A Comprehensive EHR Timeseries Pre-training Benchmark](https://dl.acm.org/doi/pdf/10.1145/3450439.3451877) (CHIL'21)
+ETTm1 We follow the backbone model used in [Autoformer](https://github.com/thuml/Autoformer) (NeurIPS21)
 
-#### Taskonomy
-
-We follow the backbone model used in [Which Tasks to Train Together in Multi-Task Learning](https://github.com/tstandley/taskgrouping) (ICML'20)
-
-#### MIMICIII
-
-We follow the backbone model used in [A Comprehensive EHR Timeseries Pre-training Benchmark](https://dl.acm.org/doi/pdf/10.1145/3450439.3451877) (CHIL'21)
-
-#### ETTm1
-
-We follow the backbone model used in [Autoformer](https://github.com/thuml/Autoformer) (NeurIPS21)
-
-### Transferring Gain Collection
+#### Transferring Gain Collection
 
 We provide scripts for collecting the transferring gain [here](./gain_collection).
 
-### Baselines
-
-#### HOA
-
-The HOA algorithm can be calculated using pairwise task transferring gains, we provide examples in ./gain_collection directory.
-
-#### TAG
-
-We provide each datasets gain collection with a TAG version. You can refer to the readme file under ./gain_collection directory for details.
+##### Baselines
+High Order Approximation(HOA) uses pairwise task transferring gains to predict tasks' transferring gains, 
+Task Affinity Grouping (TAG) combines HOA with task affinity to accelerate the data collection process.
+For each baseline we provide scripts for data collect and predict.
 
 ### Pipeline
 
-1. Collect ground truth transferring gains on datasets.
+1. Collect ground truth transferring gains on datasets, our collected gains can be found at `./gain_collection/`
 2. Run MTG-Net script to obtain the predicted gain.
-3. Run grouping script to do the final grouping.
+```
+python MTG.py --dataset mimic27 --gpu_id 0 --layer_num 4 --seed 72 --strategy active --num_hidden 64
+```
+### Citation
 
-(contact for details in all settings)
+If you find our work interesting, you can cite the paper as
+
+```text
+@inproceedings{
+song2022mtgnet,
+title={{Efficient and Effective Multi-task Grouping via Meta Learning on Task Combinations},
+author={Xiaozhuang Song and Shun Zheng and Wei Cao and James Jianqiao Yu and Jiang Bian},
+booktitle={Advances in Neural Information Processing Systems},
+year={2022},
+}
+```
