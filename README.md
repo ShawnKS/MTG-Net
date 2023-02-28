@@ -11,6 +11,13 @@ ETTm1 We follow the backbone model used in [Autoformer](https://github.com/thuml
 
 We provide scripts for collecting the transferring gain [here](./gain_collection).
 
+##### Env
+torch 1.7.1
+cuda 10.2
+numpy 1.21.6
+pandas 1.3.5
+
+For the backbone environment package used, please refer to the link mentioned above.
 ##### Baselines
 High Order Approximation(HOA) uses pairwise task transferring gains to predict tasks' transferring gains, 
 Task Affinity Grouping (TAG) combines HOA with task affinity to accelerate the data collection process.
@@ -19,7 +26,9 @@ For each baseline we provide scripts for data collect and predict.
 ### Pipeline
 
 1. Collect ground truth transferring gains on datasets, our collected gains can be found at `./gain_collection/`
-2. Run MTG-Net script to obtain the predicted gain.
+2. Run MTG-Net script to obtain the predicted gain, the log files would be generated at `./log/`.
+
+A script `embed_visual_example.ipynb` to visualize the task embedding is provided.
 ```
 python MTG.py --dataset mimic27 --gpu_id 0 --layer_num 4 --seed 72 --strategy active --num_hidden 64
 ```
