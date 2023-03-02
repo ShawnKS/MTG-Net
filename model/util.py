@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 from torch.utils.data import (
     DataLoader, Dataset, RandomSampler, SubsetRandomSampler, Subset, SequentialSampler
 )
-from HOINet import *
+from MTGNet import *
 import pandas as pd
 import torch
 import numpy as np
@@ -50,7 +50,6 @@ def model_training(dataset, ratio,temperature, num_layers,num_hidden,ensemble_nu
     import copy
     save_x = copy.deepcopy(x)
     task_id = torch.from_numpy(np.array(range(len(x[0])))).to(device)
-    # model = HOINet(in_dim=8,hidden_dim=144,out_dim=8).to(device)
     task_id_all = task_id.repeat(len(x),1)
     end_num = int((len(x[0]) * (len(x[0]) - 1 )  )/(2 * step))
     if( (dataset == '27tasks') & (strategy == 'active')):
