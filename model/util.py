@@ -103,16 +103,12 @@ def model_training(dataset, ratio,temperature, num_layers,num_hidden,ensemble_nu
         y_test = testy_align
         mask_test = copy.deepcopy(X_test)
 
-    # X_train, X_test, y_train, y_test = train_test_split(x,y,test_size =0.9)
     print('max y', np.max(y_train))
     print('min y', np.min(y_train))
-# .to(device)
     X_train, X_test, X_select, y_train, y_test, y_select = torch.FloatTensor(X_train), torch.FloatTensor(X_test), torch.FloatTensor(X_select), torch.FloatTensor(y_train), torch.FloatTensor(y_test), torch.FloatTensor(y_select)
     mask_train, mask_test,mask_select = torch.FloatTensor(mask_train), torch.FloatTensor(mask_test), torch.FloatTensor(mask_select)
     batch_size = 128
-    # X_valid,y_valid, mask_valid = torch.FloatTensor(X_valid).to(device), torch.FloatTensor(y_valid).to(device), torch.FloatTensor(mask_valid).to(device)
     epoch_num = 10000
-    # criterion = nn.MSELoss()
     criterion = nn.L1Loss()
     ensemble_capacity = ensemble_num
     max_patience = 5
@@ -137,10 +133,6 @@ def model_training(dataset, ratio,temperature, num_layers,num_hidden,ensemble_nu
         total_test_loss = np.array([])
         train_perb = torch.randperm(len(X_train)).to(device)
         X_train, y_train, mask_train = X_train[train_perb], y_train[train_perb], mask_train[train_perb]
-        # test_perb = torch.randperm(len(X_test)).to(device)
-        # X_test, y_test, mask_test = X_test[test_perb], y_test[test_perb], mask_test[test_perb]
-        # se_perb = torch.randperm(len(X_test)).to(device)
-        # X_select, y_select, mask_select = X_select[test_perb], y_select[test_perb], mask_select[test_perb]
         min_loss = 100
         patience_loss = 100
         print('cost',active_num)
@@ -153,14 +145,9 @@ def model_training(dataset, ratio,temperature, num_layers,num_hidden,ensemble_nu
                 ffn_dim= num_hidden,
                 dropout=dropout_rate).to(device)
         optimizer = torch.optim.Adam(model.parameters(),lr= 0.007,weight_decay=0.0005 )
-        # print("current activa learning iteration is ", active_num)
         patience = 0
-        # print(len(X_train) - 8)
-        # print(len(X_test))
         for epoch in range(epoch_num):
             model.train()
-            # train_perb = torch.randperm(len(X_train)).to(device)
-            # X_train, y_train, mask_train = X_train[train_perb], y_train[train_perb], mask_train[train_perb]
             total_output = torch.Tensor([])
             ground_truth = torch.Tensor([])
             total_mask = torch.Tensor([])
@@ -174,18 +161,12 @@ def model_training(dataset, ratio,temperature, num_layers,num_hidden,ensemble_nu
                 batch_y = y_train[batch_size*i: batch_size*(i+1)].to(device)
                 task_id_batch = task_id_all[:len(batch_x)].to(device)
                 output,attentions,task_embedding,encoder_output = model(batch_x, task_id_batch)
-                # print(encoder_output.cpu().detach().numpy())
-                # print(encoder_output.cpu().detach().numpy().shape)
-                # print(batch_mask.shape)
-                # print(torch.mul(encoder_output.permute(2,0,1),batch_x).permute(1,2,0))
                 encoder_output = torch.mul(encoder_output.permute(2,0,1),batch_x).permute(1,2,0)
-                # encoder_output_list.append(encoder_output.cpu().detach().numpy())
                 if(active_num == end_num):
                     encoder_output_list.append(encoder_output.cpu().detach().numpy())
                     task_embedding_list.append(task_embedding.cpu().detach().numpy())
                     np.save('./embedding_collect_0.1'+'/'+dataset+'_'+str(seed)+'_task_embedding_list_sd.npy',task_embedding_list)
                     np.save('./embedding_collect_0.1'+'/'+dataset+'_'+str(seed)+'_encoder_output_list_sd.npy',encoder_output_list)
-                # print(output[:,:,0])
                 total_output = torch.cat([total_output,output.cpu().detach()],0)
                 ground_truth = torch.cat([ground_truth,batch_y.cpu().detach()],0)
                 total_mask = torch.cat([total_mask,batch_mask.cpu().detach()],0)
@@ -252,8 +233,6 @@ def model_training(dataset, ratio,temperature, num_layers,num_hidden,ensemble_nu
                     ensemble_valid_output = total_output.clone().unsqueeze(dim=0)
                 else:
                     ensemble_valid_output = torch.cat([ensemble_valid_output, total_output.unsqueeze(dim=0) ])
-                # ensemble_ground_truth = torch.stack([ensemble_ground_truth, ground_truth],1)
-                # ensemble_total_mask = torch.stack([ensemble_total_mask, total_mask],1)
                 
                 test_output = torch.Tensor([])
                 test_ground_truth = torch.Tensor([])
@@ -298,7 +277,6 @@ def model_training(dataset, ratio,temperature, num_layers,num_hidden,ensemble_nu
         else:
             model_pred = torch.cat([test_output,y_train.cpu().detach()],0).numpy()
             model_x = torch.cat([X_test.cpu().detach(), X_train.cpu().detach()],0).numpy()
-        print(model_x.shape)
         new_index =[]
         
         total_pred_traj.append(model_pred)

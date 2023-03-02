@@ -25,41 +25,17 @@ class ScaledDotProductAttention(nn.Module):
         self.task_dim = task_dim
 
     def forward(self, q, k, v, scale=None, attn_mask=None):
-        # print('q.shape',q.shape)
-        # print('k.shape',k.transpose(1,2).shape)
-        # print(attn_mask.shape)
         attention = torch.bmm(q, k.transpose(1, 2))
-        # sys.exit(0)
         attn_mask = 1 - attn_mask
         attn_maskv = attn_mask.unsqueeze(2).repeat(1,1,self.task_dim)
         attn_maskh = attn_mask.unsqueeze(1).repeat(1,self.task_dim,1)
         if scale:
         	attention = attention * scale
-            # attention = attention * 100
-        # print(attention[0])
-        attention = attention.masked_fill_(attn_maskh.bool(), -10000000)
-        attention = attention.masked_fill_(attn_maskv.bool(), -10000000)
-        # print('*'*50)
-        # print('attentino', attention)
-        # if(len(attn_mask) > 10):
-        #     print(attention[10])
-        #     print(softmax(attention, t=10)[10])
-            # softmax(attention, t=10)
+        # print(attn_maskh)
+        attention[attn_maskh.bool()] = 1e15 * -1
+        attention[attn_maskv.bool()] = 1e15 * -1
+        # attention[attn_maskv==0] = torch.Tensor(list(-float('inf')))
         attention = F.softmax(attention/0.2,dim=2)
-        # attention = softmax(attention, t=10)
-        # attention.requires_grad_()
-        # attention = attention.masked_fill_(attn_maskh.bool(), -100000000000000)
-        # attention = attention.masked_fill_(attn_maskv.bool(), -100000000000000)
-        # attention = self.softmax(attention)
-        # attention = attention.masked_fill_(attn_maskh.bool(), -100000000000000)
-        # attention = attention.masked_fill_(attn_maskv.bool(), -100000000000000)
-        # attention = self.softmax(attention)
-        # if(len(attn_mask) > 10):
-        #     print('attention:')
-        #     # print(softmax(attention, t=10)[10])
-        #     print(1 - attn_mask[10])
-        #     print('*'*50)
-        #     print(attention[10])
         context = torch.bmm(attention, v)
         return context, attention
 
