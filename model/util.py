@@ -82,13 +82,10 @@ def model_training(dataset, ratio,temperature, num_layers,num_hidden,ensemble_nu
         if((len(x[i][x[i]==1])==len(x[0]))):
             sample_list.append(i)
     mask = copy.deepcopy(x)
-    print(sample_list)
     mask_test = copy.deepcopy(testx_align)
     X_select = x[ np.setdiff1d(np.array(range(len(x))), sample_list) ]
     y_select = y[ np.setdiff1d(np.array(range(len(y))), sample_list) ]
     mask_select = mask[np.setdiff1d(np.array(range(len(mask))), sample_list)]
-    
-    print(sample_list)
     X_train = x[sample_list]
     y_train = y[sample_list]
     mask_train = mask[sample_list]
@@ -303,7 +300,6 @@ def model_training(dataset, ratio,temperature, num_layers,num_hidden,ensemble_nu
 
         if(strategy == 'activeper'):
             col = active_num % len(x[0])
-            print(col)
             if(active_num < len(x[0])):
                 sel_index = torch.argmax(abs(total_output[:,col]))
                 X_train = torch.cat([X_train, X_select[sel_index].unsqueeze(0)],0)
