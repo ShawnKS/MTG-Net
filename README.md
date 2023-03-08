@@ -32,6 +32,13 @@ A script `embed_visual_example.ipynb` to visualize the task embedding is provide
 ```
 python MTG.py --dataset mimic27 --gpu_id 0 --layer_num 4 --seed 72 --strategy active --num_hidden 64
 ```
+
+3. We provide grouping and visualization notebooks for each dataset at `./model/`
+
+#### Visualization Notebooks
+
+We provide visualizations of the results for grouping operations in the `./model/` directory, which include `ETTm1_grouping_reproduce.ipynb`, `mimic27_grouping_reproduce.ipynb`, and `taskonomy_grouping_reproduce.ipynb` notebooks corresponding to the three datasets we used. For each dataset, we provide log files for both training and prediction processes, and grouping is performed using the predicted and sampled values during these processes. The visualized grouping performance results can be seen in these three notebooks. In addition, for the taskonomy dataset, we used an [exhaustive algorithm](https://github.com/tstandley/taskgrouping) for grouping, while for the other two datasets with larger combinatorial spaces, we adopted a strategy to reduce computational complexity for easier grouping operations. The algorithm is introduced in the appendix of the paper and implemented in `search.py`. The provided scripts and notebooks have been tested locally.
+
 ### Citation
 
 If you find our work interesting, you can cite the paper as

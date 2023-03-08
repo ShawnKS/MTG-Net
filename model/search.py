@@ -6,21 +6,13 @@ import copy
 import sys
 
 def approx_optimal(sample_num,search_num,pred_traj,ground_truth,ground_truth_mask,dataset,mask=None):
-    if(len(np.array(pred_traj).shape) == 3):
+    if (len(np.array(pred_traj).shape) == 3) or (mask is not None):
         total_gain_traj = []
         total_select = []
         for i in range(len(pred_traj)):
             pred_cost = pred_traj[i]
             pred_mask = mask[i]
-            pred_cost[pred_mask==0] = -100
-            # idx_list  = []
-            # for mask_unit in ground_truth_mask:
-            #     for j in range(len(pred_mask)):
-            #         if((pred_mask[j] == mask_unit).all()):
-            #             # print(mask_unit,NN_mask[i])
-            #             idx_list.append(j)
-            # pred_cost = pred_cost[idx_list]
-            # pred_mask = pred_mask[idx_list]
+            pred_cost[pred_mask==0] = -99
             iterations = len(pred_cost[0])
             gain_traj = []
             sel_traj = []
@@ -36,9 +28,6 @@ def approx_optimal(sample_num,search_num,pred_traj,ground_truth,ground_truth_mas
                 gain_traj.append(total_gain)
             total_gain_traj.append(gain_traj)
             total_select.append(sel_traj)
-            # print('*'*40)
-            # print(total_select)
-            # print(pred_cost)
         return total_gain_traj , total_select
     else:
         mask = copy.deepcopy(ground_truth_mask)
@@ -46,9 +35,7 @@ def approx_optimal(sample_num,search_num,pred_traj,ground_truth,ground_truth_mas
         pred_cost[ground_truth_mask==0] = -99
         total_gain_traj = []
         total_select = []
-        # search for multiple
         iterations = len(pred_cost[0])
-        # chose_list = []
         for iteration in range(1,iterations+1):
             rest_gain = copy.deepcopy(pred_cost)
             rest_mask = copy.deepcopy(ground_truth_mask)
@@ -132,7 +119,6 @@ def approx_search(iteration,rest_gain, rest_mask ,get_gain, pred_cost,sample_num
     else:
         for i in range(len(selected_gr[0])):
             total_gain = total_gain + selected_gr[np.argmax(select_list[:,i])][i]
-            print('iteration',j,i,selected_gr[np.argmax(select_list[:,i])][i],'NN',select_list[np.argmax(select_list[:,i])][i],select_list[np.argmax(select_list[:,i])])
     return total_gain,selected_gr
 
 def better(a, b):

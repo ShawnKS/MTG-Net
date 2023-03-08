@@ -15,19 +15,20 @@ import argparse
 import pickle
 from data_util import *
 
-def del_tensor_ele(arr,index):
-    arr1 = arr[0:index]
-    arr2 = arr[index+1:]
-    return torch.cat((arr1,arr2),dim=0)
+def del_tensor_ele(arr, index):
+    return torch.cat((arr[:index], arr[index+1:]), dim=0)
 
-def unravel_index(flat_idx, shape): 
-     multi_idx = [] 
-     r = flat_idx 
-     for s in shape[::-1]: 
-         multi_idx.append(r % s) 
-         r = r // s 
-     return multi_idx[: :-1]
-
+def unravel_index(flat_idx, shape):
+    shape_rev = reversed(shape)
+    multi_idx = [flat_idx % s for s in shape_rev]
+    flat_idx //= shape[-1]
+    while shape:
+        shape.pop()
+        if shape:
+            s = shape[-1]
+            multi_idx.insert(0, flat_idx % s)
+            flat_idx //= s
+    return multi_idx
 
 
 def softmax(x, temperature=1):

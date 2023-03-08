@@ -6,13 +6,13 @@ import random
 import argparse
 import pickle
 
-def getdataset(dataset,ratio):
+def getdataset(dataset,ratio=None):
     print('load', dataset)
     if(dataset == 'ETTm1'):
-        x = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/MTG-Net/ETT/ETTm1/ETTm1_mask.csv',sep=' ',header=None))
-        y = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/MTG-Net/ETT/ETTm1/ETTm1_val_y.csv',sep=' ',header=None))
-        testx = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/MTG-Net/ETT/ETTm1/ETTm1_mask.csv',sep=' ',header=None))
-        testy = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/MTG-Net/ETT/ETTm1/ETTm1_y.csv',sep=' ',header=None))
+        x = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/MTG-Net/gain_data/ETT/ETTm1/ETTm1_mask.csv',sep=' ',header=None))
+        y = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/MTG-Net/gain_data/ETT/ETTm1/ETTm1_val_y.csv',sep=' ',header=None))
+        testx = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/MTG-Net/gain_data/ETT/ETTm1/ETTm1_mask.csv',sep=' ',header=None))
+        testy = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/MTG-Net/gain_data/ETT/ETTm1/ETTm1_y.csv',sep=' ',header=None))
     if(dataset == 'weather'):
         x = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/MTG-Net/weather/weather_mask.csv',sep=' ',header=None))
         y = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MultiTaskGrouping/MTG-Net/weather/weather_val_y.csv',sep=' ',header=None))
@@ -56,16 +56,16 @@ def getdataset(dataset,ratio):
         testy = np.array(pd.read_csv('/home/covpreduser/Blob/v-xiaosong/projects/MTL/MTL4Drug/tox21.csv',header=None))
 
     if(dataset == 'taskonomy'):
-        x = np.array(pd.read_csv('../gain_collection/collected_gain/CV_results/cv0.1x.csv',header = None))
-        y = np.array(pd.read_csv('../gain_collection/collected_gain/CV_5tasks/5tasksfull_relative.csv', sep = ' ', header = None))
-        testx = np.array(pd.read_csv('../gain_collection/collected_gain/CV_results/cv0.1x.csv',header = None))
-        testy = np.array(pd.read_csv('../gain_collection/collected_gain/CV_5tasks/5tasksfull_relative.csv', sep = ' ', header = None))
+        x = np.array(pd.read_csv('../gain_collection/collected_gain/taskonomy/taskonomy_x.csv',header = None))
+        y = np.array(pd.read_csv('../gain_collection/collected_gain/taskonomy/taskonomy.csv', sep = ' ', header = None))
+        testx = np.array(pd.read_csv('../gain_collection/collected_gain/taskonomy/taskonomy_x.csv',header = None))
+        testy = np.array(pd.read_csv('../gain_collection/collected_gain/taskonomy/taskonomy.csv', sep = ' ', header = None))
             
     if(dataset == 'mimic5tasks'):
-        x = np.array(pd.read_csv('../gain_collection/collected_gain/mimic5tasks/taskonomy_x.csv',header = None))
-        y = np.array(pd.read_csv('../gain_collection/collected_gain/mimic5tasks/taskonomy_validy.csv', header = None))
-        testx = np.array(pd.read_csv('../gain_collection/collected_gain/mimic5tasks/taskonomy_x.csv',header = None))
-        testy = np.array(pd.read_csv('../gain_collection/collected_gain/mimic5tasks/taskonomy_testy.csv', header = None))
+        x = np.array(pd.read_csv('../gain_collection/collected_gain/mimic5tasks/mimic_x.csv',header = None))
+        y = np.array(pd.read_csv('../gain_collection/collected_gain/mimic5tasks/mimic_validy.csv', header = None))
+        testx = np.array(pd.read_csv('../gain_collection/collected_gain/mimic5tasks/mimic_x.csv',header = None))
+        testy = np.array(pd.read_csv('../gain_collection/collected_gain/mimic5tasks/mimic_testy.csv', header = None))
 
     if(dataset == 'mimic27'):
         x = np.array(pd.read_csv('../gain_collection/collected_gain/mimic27/mimic_x.csv',header = None,sep=' '))
